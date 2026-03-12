@@ -1,3 +1,15 @@
 class Portfolio < ApplicationRecord
   belongs_to :customer
+  has_many :holdings, dependent: :destroy
+  has_many :instruments, through: :holdings
+
+  enum :portfolio_type, %i[cto pea assurance_vie livret_a compte_depot]
+
+  PORTFOLIO_LOOKUP = {
+    cto: 'CTO',
+    pea: 'PEA',
+    assurance_vie: 'Assurance Vie',
+    livret_a: 'Livret A',
+    compte_depot: 'Compte dépôt'
+  }
 end
