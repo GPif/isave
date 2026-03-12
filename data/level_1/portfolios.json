@@ -1,0 +1,134 @@
+{
+    "contracts": [
+        {
+            "label": "Portefeuille d'actions",
+            "type": "CTO",
+            "amount": 15000.0,
+            "lines": [
+                {
+                    "type": "stock",
+                    "isin": "FR0000120172",
+                    "label": "Apple Inc.",
+                    "price": 150.0,
+                    "share": 0.2,
+                    "amount": 15000.0,
+                    "srri": 6
+                },
+                {
+                    "type": "bond",
+                    "isin": "FR0000131104",
+                    "label": "Obligation d'État Française",
+                    "price": 200.0,
+                    "share": 0.1,
+                    "amount": 10000.0,
+                    "srri": 3
+                },
+                {
+                    "type": "stock",
+                    "isin": "FR0004567890",
+                    "label": "Microsoft Corp.",
+                    "price": 180.0,
+                    "share": 0.12,
+                    "amount": 12600.0,
+                    "srri": 6
+                },
+                {
+                    "type": "bond",
+                    "isin": "FR0000456789",
+                    "label": "Obligation d'Entreprise Française",
+                    "price": 220.0,
+                    "share": 0.28,
+                    "amount": 9900.0,
+                    "srri": 4
+                },
+                {
+                    "type": "stock",
+                    "isin": "FR0000678910",
+                    "label": "Amazon Inc.",
+                    "price": 160.0,
+                    "share": 0.08,
+                    "amount": 14400.0,
+                    "srri": 6
+                },
+                {
+                    "type": "stock",
+                    "isin": "FR0000789012",
+                    "label": "Facebook Inc.",
+                    "price": 190.0,
+                    "share": 0.02,
+                    "amount": 11400.0,
+                    "srri": 6
+                },
+                {
+                    "type": "bond",
+                    "isin": "FR0000901234",
+                    "label": "Obligation Municipale Française",
+                    "price": 210.0,
+                    "share": 0.2,
+                    "amount": 11550.0,
+                    "srri": 4
+                }
+            ]
+        },
+        {
+            "label": "PEA - Portefeuille Équilibré",
+            "type": "PEA",
+            "amount": 30000.0,
+            "lines": [
+                {
+                    "type": "stock",
+                    "isin": "FR0012345678",
+                    "label": "iShares Core MSCI World ETF",
+                    "price": 50.0,
+                    "share": 0.34,
+                    "amount": 20000.0,
+                    "srri": 6
+                },
+                {
+                    "type": "stock",
+                    "isin": "FR0012345679",
+                    "label": "Vanguard Total Bond Market ETF",
+                    "price": 100.0,
+                    "share": 0.66,
+                    "amount": 10000.0,
+                    "srri": 5
+                }
+            ]
+        },
+        {
+            "label": "Assurance Vie - Plan d'Épargne",
+            "type": "Assurance Vie",
+            "amount": 50000.0,
+            "lines": [
+                {
+                    "type": "euro_fund",
+                    "isin": "FR0098765432",
+                    "label": "Fonds Équilibré Global",
+                    "price": 50.0,
+                    "share": 0.12,
+                    "amount": 50000.0,
+                    "srri": 1
+                },
+                {
+                    "type": "bond",
+                    "isin": "FR0098765433",
+                    "label": "Fonds Obligataire",
+                    "price": 100.0,
+                    "share": 0.88,
+                    "amount": 50000.0,
+                    "srri": 2
+                }
+            ]
+        },
+        {
+            "label": "Livret d'épargne",
+            "type": "Livret A",
+            "amount": 10000.0
+        },
+        {
+            "label": "Compte courant",
+            "type": "Compte dépôt",
+            "amount": 18000.0
+        }
+    ]
+  }
