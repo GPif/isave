@@ -5,49 +5,10 @@ module Api
 
       def index
         @portfolios = @customer.portfolios.includes(holdings: :instrument)
-
-        # TODO: refactor contract
-        render json: {
-          contracts: @portfolios.map do |p|
-            {
-              label: p.label,
-              type: p.portfolio_type,
-              amount: p.amount,
-              lines: p.holdings.map do |h|
-                {
-                  type: h.instrument.instrument_type,
-                  isin: h.instrument.isin,
-                  label: h.instrument.label,
-                  price: h.instrument.price,
-                  share: h.amount / p.amount,
-                  amount: h.amount,
-                  srri: h.instrument.sri
-                }
-              end.presence
-            }
-          end
-        }
       end
 
       def show
-        p = @customer.portfolios.includes(holdings: :instrument).find(params[:id])
-
-        render json: {
-          label: p.label,
-          type: p.portfolio_type,
-          amount: p.amount,
-          lines: p.holdings.map do |h|
-            {
-              type: h.instrument.instrument_type,
-              isin: h.instrument.isin,
-              label: h.instrument.label,
-              price: h.instrument.price,
-              share: h.amount / p.amount,
-              amount: h.amount,
-              srri: h.instrument.sri
-            }
-          end.presence
-        }
+        @portfolio = @customer.portfolios.includes(holdings: :instrument).find(params[:id])
       end
 
       private
