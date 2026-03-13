@@ -26,4 +26,31 @@ RSpec.describe Portfolio, type: :model do
       expect(portfolio.amount).to eq(holding1.amount * instrument1.price + holding2.amount * instrument2.price)
     end
   end
+
+  describe "eligible?" do
+    it "returns true for CTO portfolio" do
+      portfolio = create(:portfolio, customer:, portfolio_type: :cto)
+      expect(portfolio.eligible?).to be true
+    end
+
+    it "returns true for PEA portfolio" do
+      portfolio = create(:portfolio, customer:, portfolio_type: :pea)
+      expect(portfolio.eligible?).to be true
+    end
+
+    it "returns false for Livret A portfolio" do
+      portfolio = create(:portfolio, customer:, portfolio_type: :livret_a)
+      expect(portfolio.eligible?).to be false
+    end
+
+    it "returns false for Assurance Vie portfolio" do
+      portfolio = create(:portfolio, customer:, portfolio_type: :assurance_vie)
+      expect(portfolio.eligible?).to be false
+    end
+
+    it "returns false for Compte Dépôt portfolio" do
+      portfolio = create(:portfolio, customer:, portfolio_type: :compte_depot)
+      expect(portfolio.eligible?).to be false
+    end
+  end
 end

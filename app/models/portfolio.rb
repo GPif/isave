@@ -17,4 +17,8 @@ class Portfolio < ApplicationRecord
   def amount
     holdings.includes(:instrument).sum('holdings.amount * instruments.price')
   end
+
+  def eligible?
+    cto? || pea?
+  end
 end
