@@ -13,4 +13,8 @@ class Portfolio < ApplicationRecord
     livret_a: 'Livret A',
     compte_depot: 'Compte dépôt'
   }
+
+  def amount
+    holdings.includes(:instrument).sum('holdings.amount * instruments.price')
+  end
 end

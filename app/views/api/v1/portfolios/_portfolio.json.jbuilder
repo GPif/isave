@@ -6,7 +6,7 @@ json.lines portfolio.holdings.map do |h|
   json.isin h.instrument.isin
   json.label h.instrument.label
   json.price h.instrument.price
-  json.share h.amount / portfolio.amount
+  json.share h.share
   json.amount h.amount
   json.srri h.instrument.sri
 end.presence

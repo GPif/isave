@@ -19,7 +19,6 @@ json['contracts'].each do |contract|
   portfolio = customer.portfolios.create!(
     label: contract['label'],
     portfolio_type: Portfolio::PORTFOLIO_LOOKUP.invert[contract['type']],
-    amount: contract['amount']
   )
 
   next unless contract['lines']
