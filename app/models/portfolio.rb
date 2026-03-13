@@ -4,6 +4,7 @@ class Portfolio < ApplicationRecord
   has_many :instruments, through: :holdings
 
   enum :portfolio_type, %i[cto pea assurance_vie livret_a compte_depot]
+  validates :label, :portfolio_type, presence: true
 
   PORTFOLIO_LOOKUP = {
     cto: 'CTO',
