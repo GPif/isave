@@ -1,7 +1,6 @@
 class Customer < ApplicationRecord
   has_many :portfolios, dependent: :destroy
 
-  # Risque global tous portfolios confondus
   def overall_risk_level
     total_value = portfolios
                   .joins(holdings: :instrument)
@@ -16,7 +15,6 @@ class Customer < ApplicationRecord
     (weighted_risk / total_value).round(2)
   end
 
-  # Répartition globale par type d'investissement
   def overall_allocation_by_type
     allocation = portfolios
                  .joins(holdings: :instrument)

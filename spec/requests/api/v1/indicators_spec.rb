@@ -32,6 +32,20 @@ RSpec.describe "Api::V1::Indicators", type: :request do
         expect(json["allocation_by_type"]).to have_key("bond")
         expect(json["allocation_by_type"]).to have_key("euro_fund")
       end
+
+      it "returns portfolios with risk_level and allocation_by_type" do
+        get api_v1_customer_indicators_path(customer)
+        json = JSON.parse(response.body)
+        expect(json).to have_key("portfolios")
+        expect(json["portfolios"].length).to eq(1)
+
+        portfolio = json["portfolios"].first
+        expect(portfolio).to have_key("id")
+        expect(portfolio).to have_key("label")
+        expect(portfolio).to have_key("risk_level")
+        expect(portfolio).to have_key("allocation_by_type")
+        expect(portfolio["risk_level"]).to eq(5.0)
+      end
     end
 
     context "when customer has no portfolios" do
