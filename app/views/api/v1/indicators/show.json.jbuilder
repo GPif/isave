@@ -1,0 +1,2 @@
+json.risk_level @customer.overall_risk_level
+json.allocation_by_type @customer.overall_allocation_by_type

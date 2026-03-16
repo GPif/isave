@@ -17,6 +17,7 @@ Rails.application.routes.draw do
             post :transfer
           end
         end
+        resource :indicators, only: [:show]
       end
     end
   end

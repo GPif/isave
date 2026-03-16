@@ -8,5 +8,9 @@ RSpec.describe Instrument, type: :model do
       it { should validate_presence_of(:price) }
       it { should validate_presence_of(:instrument_type) }
     end
+
+    describe "uniqueness" do
+      it { should validate_uniqueness_of(:isin) }
+    end
   end
 end

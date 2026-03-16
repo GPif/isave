@@ -21,4 +21,29 @@ class Portfolio < ApplicationRecord
   def eligible?
     cto? || pea?
   end
+
+  def risk_level
+    total_value = holdings.joins(:instrument).sum('holdings.amount * instruments.price')
+    return 0 if total_value.zero?
+
+    weighted_risk = holdings.joins(:instrument).sum('holdings.amount * instruments.price * instruments.sri')
+    (weighted_risk.to_f / total_value).round(2)
+  end
+
+  def allocation_by_type
+    allocation = holdings
+      .joins(:instrument)
+      .group('instruments.instrument_type')
+      .sum('holdings.amount * instruments.price')
+
+    total = allocation.values.sum
+    return { stock: 0, bond: 0, euro_fund: 0 } if total.zero?
+
+    result = { stock: 0, bond: 0, euro_fund: 0 }
+    allocation.each do |type_str, value|
+      type_key = type_str.to_sym
+      result[type_key] = ((value.to_f / total) * 100).round(2)
+    end
+    result
+  end
 end

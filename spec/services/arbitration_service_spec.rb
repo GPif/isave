@@ -103,8 +103,8 @@ RSpec.describe ArbitrationService do
   end
 
   describe "#transfer" do
-    let(:source_instrument) { create(:instrument, isin: "FR001", price: 100.0) }
-    let(:target_instrument) { create(:instrument, isin: "FR002", price: 100.0) }
+    let(:source_instrument) { create(:instrument, isin: "FR101", price: 100.0) }
+    let(:target_instrument) { create(:instrument, isin: "FR102", price: 100.0) }
 
     context "when portfolio is eligible" do
       before { create(:holding, portfolio: eligible_portfolio, instrument: source_instrument, amount: 20) }

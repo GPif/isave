@@ -30,10 +30,32 @@ RSpec.describe Holding, type: :model do
     let(:portfolio) { create(:portfolio, customer: customer) }
     let(:instrument) { create(:instrument) }
 
-    subject { create(:holding, portfolio: portfolio, instrument: instrument) }
+    subject { create(:holding, portfolio: portfolio, instrument: instrument, amount: 10) }
 
     it 'should compute the correct share' do
       expect(subject.share).to eq(1.0)
+    end
+  end
+
+  describe 'value' do
+    let(:portfolio) { create(:portfolio, customer: customer) }
+    let(:instrument) { create(:instrument, price: 100.0) }
+
+    subject { create(:holding, portfolio: portfolio, instrument: instrument, amount: 5) }
+
+    it 'should compute the correct value' do
+      expect(subject.value).to eq(500.0)
+    end
+  end
+
+  describe 'risk_contribution' do
+    let(:portfolio) { create(:portfolio, customer: customer) }
+    let(:instrument) { create(:instrument, price: 100.0, sri: 6) }
+
+    subject { create(:holding, portfolio: portfolio, instrument: instrument, amount: 10) }
+
+    it 'should compute the correct risk contribution' do
+      expect(subject.risk_contribution).to eq(6.0)
     end
   end
 end
