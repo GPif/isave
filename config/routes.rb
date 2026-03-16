@@ -10,8 +10,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :customers, only: [] do
+        resource :fees, only: [:show]
         resources :portfolios, only: %i[index show] do
           member do
+            get :fees, to: 'fees#show'
             post :deposit
             post :withdraw
             post :transfer
