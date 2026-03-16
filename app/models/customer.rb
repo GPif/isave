@@ -31,4 +31,15 @@ class Customer < ApplicationRecord
     end
     result
   end
+
+  def fee_amount
+    portfolios.sum(&:fee_amount)
+  end
+
+  def fee_percentage
+    total = portfolios.sum(&:amount)
+    return 0 if total.zero?
+
+    ((fee_amount / total) * 100)
+  end
 end

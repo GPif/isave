@@ -157,4 +157,28 @@ RSpec.describe Portfolio, type: :model do
       expect(portfolio.allocation_by_type).to eq({ stock: 75.0, bond: 25.0, euro_fund: 0 })
     end
   end
+
+  describe "fee_amount" do
+    let(:portfolio) { create(:portfolio, customer: customer) }
+    let!(:stock) { create(:instrument, price: 100.0, instrument_type: :stock) }
+    let!(:bond) { create(:instrument, price: 100.0, instrument_type: :bond) }
+    let!(:holding1) { create(:holding, portfolio: portfolio, instrument: stock, amount: 75) }
+    let!(:holding2) { create(:holding, portfolio: portfolio, instrument: bond, amount: 25) }
+
+    it "returns correct fee amount" do
+      # stock value = 75 * 100 = 7500 (75%)
+      # bond value = 25 * 100 = 2500 (25%)
+      # total = 10000
+      # fee = 5000 * 0.05 + 2500 * 0.03 + 2500 * 0.02 = 375
+      expect(portfolio.fee_amount).to eq(375.0)
+    end
+
+    it "returns correct fee percentage" do
+      # total = 10000
+      # fee = 375
+      # percentage = 3.75%
+      expect(portfolio.fee_percentage).to eq(3.75)
+    end
+  end
+
 end

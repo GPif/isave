@@ -60,4 +60,31 @@ RSpec.describe Customer, type: :model do
       expect(empty_customer.overall_allocation_by_type).to eq({ stock: 0, bond: 0, euro_fund: 0 })
     end
   end
+
+  describe "fee_amount" do
+    let(:customer) { create(:customer) }
+    let(:portfolio1) { create(:portfolio, customer: customer) }
+    let(:portfolio2) { create(:portfolio, customer: customer) }
+    let!(:stock) { create(:instrument, price: 100.0, instrument_type: :stock) }
+    let!(:bond) { create(:instrument, price: 100.0, instrument_type: :bond) }
+    let!(:euro_fund) { create(:instrument, price: 50.0, instrument_type: :euro_fund) }
+    let!(:holding1) { create(:holding, portfolio: portfolio1, instrument: stock, amount: 75) }
+    let!(:holding2) { create(:holding, portfolio: portfolio1, instrument: bond, amount: 25) }
+    let!(:holding3) { create(:holding, portfolio: portfolio2, instrument: euro_fund, amount: 20) }
+
+    it "returns correct fee amount" do
+      # stock value = 75 * 100 = 7500 (75%)
+      # bond value = 25 * 100 = 2500 (25%)
+      # euro_fund value = 20 * 50 = 1000 (20%)
+      # total = 11000
+      # fee portfolio 1 = 5000 * 0.05 + 2500 * 0.03 + 2500 * 0.02 = 375
+      # fee portfolio 2 = 1000 * 0.05 = 50
+      # fee total = 425
+      expect(customer.fee_amount).to eq(425)
+    end
+
+    it "returns correct fee amount percent" do
+      expect(customer.fee_percentage.round(2)).to eq(3.86)
+    end
+  end
 end
