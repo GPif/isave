@@ -182,11 +182,22 @@ RSpec.describe Portfolio, type: :model do
     end
   end
 
+  describe "total_fee" do
+    let(:portfolio) { create(:portfolio, customer: customer) }
+
+    it "should return the total fee from all portfolio histories" do
+      h1 = create(:portfolio_history, portfolio: portfolio, amount: 2500.0, date: 2.weeks.ago)
+      h2 = create(:portfolio_history, portfolio: portfolio, amount: 10_000.0, date: 1.weeks.ago)
+      h3 = create(:portfolio_history, portfolio: portfolio, amount: 5000.0, date: Date.today)
+      expect(portfolio.total_fee).to eq(h1.fee_amount + h2.fee_amount + h3.fee_amount)
+    end
+  end
+
   describe "initial_amount" do
     let(:portfolio) { create(:portfolio, customer: customer) }
 
     it "returns the initial amount from the first portfolio history" do
-      create(:portfolio_history, portfolio: portfolio, amount: 10000.0, date: 1.weeks.ago)
+      create(:portfolio_history, portfolio: portfolio, amount: 10_000.0, date: 1.weeks.ago)
       create(:portfolio_history, portfolio: portfolio, amount: 5000.0, date: Date.today)
       expect(portfolio.initial_amount).to eq(10000.0)
     end

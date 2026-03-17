@@ -52,6 +52,10 @@ class Portfolio < ApplicationRecord
     FeeService.calculate_fee(amount)
   end
 
+  def total_fee
+    portfolio_histories.sum { |history| FeeService.calculate_fee(history.amount) }
+  end
+
   def fee_percentage
     total = amount
     return 0.0 if total.zero?
