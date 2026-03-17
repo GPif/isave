@@ -52,8 +52,9 @@ class Portfolio < ApplicationRecord
     FeeService.calculate_fee(amount)
   end
 
-  def total_fee
-    portfolio_histories.sum { |history| FeeService.calculate_fee(history.amount) }
+  def total_fees
+    # Get only the last amount of each month to compute fees
+    portfolio_histories.last_per_month_before.sum { |history| FeeService.calculate_fee(history.amount) }
   end
 
   def fee_percentage

@@ -182,14 +182,14 @@ RSpec.describe Portfolio, type: :model do
     end
   end
 
-  describe "total_fee" do
+  describe "total_fees" do
     let(:portfolio) { create(:portfolio, customer: customer) }
 
-    it "should return the total fee from all portfolio histories" do
-      h1 = create(:portfolio_history, portfolio: portfolio, amount: 2500.0, date: 2.weeks.ago)
-      h2 = create(:portfolio_history, portfolio: portfolio, amount: 10_000.0, date: 1.weeks.ago)
-      h3 = create(:portfolio_history, portfolio: portfolio, amount: 5000.0, date: Date.today)
-      expect(portfolio.total_fee).to eq(h1.fee_amount + h2.fee_amount + h3.fee_amount)
+    it "should return the total fee from all portfolio histories considering only the last amount of each month" do
+      h1 = create(:portfolio_history, portfolio: portfolio, amount: 2500.0, date: 2.month.ago.end_of_month.to_date)
+      h2 = create(:portfolio_history, portfolio: portfolio, amount: 10_000.0, date: 1.month.ago.end_of_month.to_date - 1.week) #shoudl not be used
+      h3 = create(:portfolio_history, portfolio: portfolio, amount: 5000.0, date: 1.month.ago.end_of_month.to_date)
+      expect(portfolio.total_fees).to eq(h1.fee_amount + h3.fee_amount)
     end
   end
 
