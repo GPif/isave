@@ -8,7 +8,7 @@ if @date
   if historical_at_date
     json.performance_at_date historical_at_date.performance.to_f
     json.fee_amount_at_date historical_at_date.fee_amount.to_f
-    json.fee_percentage_at_date historical_at_date.fee_percentage.to_f
+    json.fee_percentage_at_date historical_at_date.fee_percentage.round(2).to_f
   else
     json.performance_at_date nil
     json.fee_amount_at_date nil
