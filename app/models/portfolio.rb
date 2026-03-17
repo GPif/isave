@@ -49,23 +49,7 @@ class Portfolio < ApplicationRecord
   end
 
   def fee_amount
-    total = amount
-    return 0.0 if total.zero?
-
-    fee = 0
-    tiers = [5000, 7500, 10_000, Float::INFINITY]
-    rates = [0.05, 0.03, 0.02, 0.008]
-
-    curr_floor = 0
-    tiers.each_with_index do |tier_limit, index|
-      tier = [total - curr_floor, tier_limit - curr_floor].min
-      fee += tier * rates[index]
-      break if tier_limit >= total
-
-      curr_floor = tier_limit
-    end
-
-    fee
+    FeeService.calculate_fee(amount)
   end
 
   def fee_percentage
