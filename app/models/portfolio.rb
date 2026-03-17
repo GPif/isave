@@ -16,7 +16,8 @@ class Portfolio < ApplicationRecord
   }
 
   def amount
-    holdings.includes(:instrument).sum('holdings.amount * instruments.price')
+    @holdings_sum ||= holdings.includes(:instrument).sum('holdings.amount * instruments.price')
+    @holdings_sum
   end
 
   def eligible?
@@ -24,7 +25,7 @@ class Portfolio < ApplicationRecord
   end
 
   def risk_level
-    total_value = holdings.joins(:instrument).sum('holdings.amount * instruments.price')
+    total_value = amount
     return 0 if total_value.zero?
 
     weighted_risk = holdings.joins(:instrument).sum('holdings.amount * instruments.price * instruments.sri')
@@ -65,7 +66,8 @@ class Portfolio < ApplicationRecord
   end
 
   def initial_amount
-    portfolio_histories.order(:date).first&.amount
+    @initial_amount ||= portfolio_histories.order(:date).first&.amount
+    @initial_amount
   end
 
   def performance
