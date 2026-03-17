@@ -6,6 +6,7 @@ RSpec.describe Portfolio, type: :model do
   describe "relations" do
     it { should have_many(:holdings) }
     it { should have_many(:instruments).through(:holdings) }
+    it { should have_many(:portfolio_histories) }
   end
 
   describe "validations" do
@@ -181,4 +182,33 @@ RSpec.describe Portfolio, type: :model do
     end
   end
 
+  describe "initial_amount" do
+    let(:portfolio) { create(:portfolio, customer: customer) }
+
+    it "returns the initial amount from the first portfolio history" do
+      create(:portfolio_history, portfolio: portfolio, amount: 10000.0, date: 1.weeks.ago)
+      create(:portfolio_history, portfolio: portfolio, amount: 5000.0, date: Date.today)
+      expect(portfolio.initial_amount).to eq(10000.0)
+    end
+
+    it "returns nil if there are no portfolio histories" do
+      expect(portfolio.initial_amount).to be_nil
+    end
+  end
+
+  describe "performance" do
+    let(:portfolio) { create(:portfolio, customer: customer) }
+    let!(:instrument) { create(:instrument, price: 100.0) }
+    let!(:holding) { create(:holding, portfolio: portfolio, instrument: instrument, amount: 100) }
+
+    it "returns 0.0 if there are less than 2 portfolio histories" do
+      expect(portfolio.performance).to eq(0.0)
+    end
+
+    it "returns the correct performance percentage" do
+      create(:portfolio_history, portfolio: portfolio, amount: 2500.0, date: 1.weeks.ago)
+      create(:portfolio_history, portfolio: portfolio, amount: 10_000.0, date: Date.today)
+      expect(portfolio.performance).to eq(300.0)
+    end
+  end
 end

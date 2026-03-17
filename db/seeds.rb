@@ -1,4 +1,4 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
+# This file should ensur the existence of records required to run the application in every environment (production,
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
@@ -12,6 +12,8 @@
 require 'json'
 
 json = JSON.parse(File.read('data/level_1/portfolios.json'))
+
+Customer.destroy_all
 
 customer = Customer.create!(name: 'Client Principal', email: 'client@isave.fr')
 
@@ -35,6 +37,22 @@ json['contracts'].each do |contract|
 
     portfolio.holdings.create!(
       instrument: instrument,
+      amount: line['amount']
+    )
+  end
+end
+
+json = JSON.parse(File.read('data/level_4/historical_values.json'))
+
+json.each do |lable, history|
+  portfolio = Portfolio.find_by(label: lable)
+  next unless portfolio
+
+  history.each do |line|
+    date = Date.strptime(line['date'], '%d-%m-%Y')
+    date += 2000.years
+    portfolio.portfolio_histories.create!(
+      date: date,
       amount: line['amount']
     )
   end

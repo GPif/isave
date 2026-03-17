@@ -2,6 +2,7 @@ class Portfolio < ApplicationRecord
   belongs_to :customer
   has_many :holdings, dependent: :destroy
   has_many :instruments, through: :holdings
+  has_many :portfolio_histories, dependent: :destroy
 
   enum :portfolio_type, %i[cto pea assurance_vie livret_a compte_depot]
   validates :label, :portfolio_type, presence: true
@@ -72,5 +73,15 @@ class Portfolio < ApplicationRecord
     return 0.0 if total.zero?
 
     (fee_amount.to_f / total) * 100
+  end
+
+  def initial_amount
+    portfolio_histories.order(:date).first&.amount
+  end
+
+  def performance
+    return 0.0 if portfolio_histories.count < 2
+
+    (amount / initial_amount - 1) * 100
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_13_072949) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_17_063545) do
   create_table "customers", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -38,6 +38,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_13_072949) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "portfolio_histories", force: :cascade do |t|
+    t.date "date"
+    t.decimal "amount"
+    t.integer "portfolio_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["portfolio_id"], name: "index_portfolio_histories_on_portfolio_id"
+  end
+
   create_table "portfolios", force: :cascade do |t|
     t.integer "customer_id", null: false
     t.string "label"
@@ -49,5 +58,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_13_072949) do
 
   add_foreign_key "holdings", "instruments"
   add_foreign_key "holdings", "portfolios"
+  add_foreign_key "portfolio_histories", "portfolios"
   add_foreign_key "portfolios", "customers"
 end
