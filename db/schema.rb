@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_17_063545) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_17_114412) do
   create_table "customers", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -25,6 +25,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_17_063545) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["instrument_id"], name: "index_holdings_on_instrument_id"
+    t.index ["portfolio_id", "instrument_id"], name: "index_holdings_on_portfolio_id_and_instrument_id", unique: true
     t.index ["portfolio_id"], name: "index_holdings_on_portfolio_id"
   end
 
@@ -36,6 +37,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_17_063545) do
     t.integer "sri"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["isin"], name: "index_instruments_on_isin", unique: true
   end
 
   create_table "portfolio_histories", force: :cascade do |t|
@@ -44,6 +46,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_17_063545) do
     t.integer "portfolio_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["portfolio_id", "date"], name: "index_portfolio_histories_on_portfolio_id_and_date"
     t.index ["portfolio_id"], name: "index_portfolio_histories_on_portfolio_id"
   end
 
